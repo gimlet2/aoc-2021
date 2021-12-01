@@ -23,10 +23,7 @@ fun `task1 part2`(): Int {
     val input: List<Int> = File("/workspaces/aoc-2021/1_1.txt").readLines().map { it.toInt()}
     var result = 0
     for(i in 3..(input.size-1)) {
-        val first = input[i-3] + input[i-2] + input[i-1]
-        val second = input[i-2] + input[i-1] + input[i]
-        
-        if(second > first) result++
+        if(input[i] - input[i-3] > 0) result++
     }
     return result
 }
