@@ -6,8 +6,12 @@ package com.restmonkeys.aoc
 import java.io.File
 
 fun main() {
-    val input: List<Int> = File("/workspaces/aoc-2021/1_1.txt").readLines().map { it.toInt() }
-    print(`task1 part2`(input))
+    // val input: List<Int> = File("/workspaces/aoc-2021/1_1.txt").readLines().map { it.toInt() }
+    val input: List<Pair<Direction, Int>> =
+            File("/workspaces/aoc-2021/2_1.txt").readLines().map {
+                it.split(' ').let { Direction.valueOf(it[0]) to it[1].toInt() }
+            }
+    print(`task2 part1`(input))
 }
 
 fun `task1 part1`(input: List<Int>): Int {
@@ -24,4 +28,23 @@ fun `task1 part2`(input: List<Int>): Int {
         if (input[i] - input[i - 3] > 0) result++
     }
     return result
+}
+
+fun `task2 part1`(input: List<Pair<Direction, Int>>): Int {
+    var horizontal = 0
+    var vertical = 0
+    for (i in 0..(input.size - 1)) {
+        when (input[i].first) {
+            Direction.forward -> horizontal += input[i].second
+            Direction.up -> if (vertical >= input[i].second) vertical -= input[i].second
+            Direction.down -> vertical += input[i].second
+        }
+    }
+    return horizontal * vertical
+}
+
+enum class Direction {
+    forward,
+    down,
+    up,
 }
