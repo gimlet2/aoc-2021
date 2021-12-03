@@ -4,14 +4,16 @@
 package com.restmonkeys.aoc
 
 import java.io.File
+import kotlin.math.pow
 
 fun main() {
     // val input: List<Int> = File("/workspaces/aoc-2021/1_1.txt").readLines().map { it.toInt() }
-    val input: List<Pair<Direction, Int>> =
-            File("/workspaces/aoc-2021/2_1.txt").readLines().map {
-                it.split(' ').let { Direction.valueOf(it[0]) to it[1].toInt() }
-            }
-    print(`task2 part2`(input))
+    // val input: List<Pair<Direction, Int>> =
+    //         File("/workspaces/aoc-2021/2_1.txt").readLines().map {
+    //             it.split(' ').let { Direction.valueOf(it[0]) to it[1].toInt() }
+    //         }
+    val input: List<String> = File("/workspaces/aoc-2021/3_1.txt").readLines()
+    print(`task3 part1`(input))
 }
 
 fun `task1 part1`(input: List<Int>): Int {
@@ -58,6 +60,24 @@ fun `task2 part2`(input: List<Pair<Direction, Int>>): Int {
         }
     }
     return horizontal * depth
+}
+
+fun `task3 part1`(input: List<String>): Int {
+    var gamma = 0
+    var epsilon = 0
+    var gammaCounts = IntArray(input[0].length)
+    for (line in input) {
+        line.forEachIndexed { i, s -> if (s == '1') gammaCounts[i]++ }
+    }
+
+    for (i in gammaCounts.lastIndex downTo 0) {
+        if (gammaCounts[i] > input.size / 2) {
+            gamma += 2.0.pow(gammaCounts.size - i - 1).toInt()
+        } else {
+            epsilon += 2.0.pow(gammaCounts.size - i - 1).toInt()
+        }
+    }
+    return gamma * epsilon
 }
 
 enum class Direction {
